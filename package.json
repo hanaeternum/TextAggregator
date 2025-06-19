@@ -1,0 +1,213 @@
+{
+  "name": "text-aggregator",
+  "displayName": "TextAggregator",
+  "description": "A powerful tool that collects and aggregates text content from multiple files into a single document. Perfect for code documentation, content compilation, and project analysis. Supports customizable file filters, output formatting, and batch processing.",
+  "version": "0.1.0",
+  "publisher": "Hanaeternum",
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "categories": [
+    "Documentation",
+    "Other"
+  ],
+  "keywords": [
+    "text",
+    "aggregator",
+    "documentation",
+    "file",
+    "collect",
+    "compile"
+  ],
+  "icon": "media/icon.png", 
+  "galleryBanner": {
+    "color": "#5c2d91",
+    "theme": "dark"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Hanaeternum/text-aggregator"
+  },
+  "homepage": "https://github.com/Hanaeternum/text-aggregator",
+  "bugs": {
+    "url": "https://github.com/Hanaeternum/text-aggregator/issues"
+  },
+  "license": "MIT", 
+  "activationEvents": [
+    "onCommand:text-aggregator.showMainMenu",
+    "onCommand:text-aggregator.collectFiles",
+    "onCommand:text-aggregator.clearOutput",
+    "onCommand:text-aggregator.openOutput",
+    "onCommand:text-aggregator.changeOutputPath",
+    "onCommand:text-aggregator.collectLastUsed",
+    "onCommand:text-aggregator.selectFolders",
+    "onCommand:text-aggregator.setFileFilters",
+    "onView:textAggregatorView"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "configuration": {
+      "title": "TextAggregator",
+      "properties": {
+        "textAggregator.defaultExtensions": {
+          "type": "array",
+          "default": ["js", "ts", "md", "txt"],
+          "description": "Default file extensions to collect (e.g., js, ts, md)"
+        },
+        "textAggregator.excludePatterns": {
+          "type": "array",
+          "default": ["**/node_modules/**", "**/.git/**", "**/dist/**"],
+          "description": "Glob patterns to exclude files and folders"
+        },
+        "textAggregator.outputFileName": {
+          "type": "string",
+          "default": "aggregated_content.txt",
+          "description": "Name of the output file where collected content will be saved"
+        },
+        "textAggregator.includeFileHeader": {
+          "type": "boolean",
+          "default": true,
+          "description": "Include file path header before each file's content"
+        },
+        "textAggregator.maxFileSizeMB": {
+          "type": "number",
+          "default": 5,
+          "description": "Maximum file size in MB to process (prevents large file issues)"
+        },
+        "textAggregator.outputFormat": {
+          "type": "string",
+          "enum": ["plain", "markdown", "json"],
+          "default": "plain",
+          "description": "Format of the output file (plain text, markdown, or JSON)"
+        }
+      }
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "text-aggregator",
+          "title": "TextAggregator",
+          "icon": "media/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "text-aggregator": [
+        {
+          "id": "textAggregatorView",
+          "name": "TextAggregator"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "text-aggregator.showMainMenu",
+        "title": "Show TextAggregator Menu",
+        "icon": "$(menu)",
+        "category": "TextAggregator"
+      },
+      {
+        "command": "text-aggregator.collectFiles",
+        "title": "Aggregate Files...",
+        "icon": "$(file-code)",
+        "category": "TextAggregator"
+      },
+      {
+        "command": "text-aggregator.collectLastUsed",
+        "title": "Aggregate Last Used",
+        "icon": "$(history)",
+        "category": "TextAggregator"
+      },
+      {
+        "command": "text-aggregator.clearOutput",
+        "title": "Clear Aggregated Content",
+        "icon": "$(trash)",
+        "category": "TextAggregator"
+      },
+      {
+        "command": "text-aggregator.openOutput",
+        "title": "Open Aggregated File",
+        "icon": "$(go-to-file)",
+        "category": "TextAggregator"
+      },
+      {
+        "command": "text-aggregator.changeOutputPath",
+        "title": "Change Output Path...",
+        "icon": "$(file-directory)",
+        "category": "TextAggregator"
+      },
+      {
+        "command": "text-aggregator.selectFolders",
+        "title": "Select Source Folders...",
+        "icon": "$(folder-active)",
+        "category": "TextAggregator"
+      },
+      {
+        "command": "text-aggregator.setFileFilters",
+        "title": "Configure File Filters...",
+        "icon": "$(filter)",
+        "category": "TextAggregator"
+      }
+    ],
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "text-aggregator.showMainMenu",
+          "when": "true"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "text-aggregator.showMainMenu",
+          "when": "view == textAggregatorView",
+          "group": "navigation",
+          "order": 1
+        },
+        {
+          "command": "text-aggregator.collectFiles",
+          "when": "view == textAggregatorView",
+          "group": "navigation",
+          "order": 2
+        },
+        {
+          "command": "text-aggregator.collectLastUsed",
+          "when": "view == textAggregatorView && viewItem == empty",
+          "group": "navigation",
+          "order": 3
+        },
+        {
+          "command": "text-aggregator.clearOutput",
+          "when": "view == textAggregatorView",
+          "group": "navigation",
+          "order": 4
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "text-aggregator.openOutput",
+          "when": "view == textAggregatorView && viewItem == output",
+          "group": "inline"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js",
+    "package": "vsce package",
+    "publish": "vsce publish"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.3",
+    "@types/vscode": "^1.75.0",
+    "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "@typescript-eslint/parser": "^5.0.0",
+    "eslint": "^8.0.1",
+    "typescript": "^4.0.0",
+    "vsce": "^2.15.0"
+  }
+}

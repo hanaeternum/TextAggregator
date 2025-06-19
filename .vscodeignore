@@ -1,0 +1,16 @@
+# 开发环境文件
+.vscode/
+.vscode-test/
+node_modules/
+src/
+*.ts
+*.map
+
+# 配置文件
+.gitignore
+.yarnrc
+tsconfig.json
+eslint.config.mjs
+
+# 明确包含编译后的文件
+!out/extension.js
