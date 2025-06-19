@@ -25,11 +25,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Hanaeternum/text-aggregator"
+    "url": "https://github.com/hanaeternum/TextAggregator"
   },
-  "homepage": "https://github.com/Hanaeternum/text-aggregator",
+  "homepage": "https://hanaeternum.github.io/",
   "bugs": {
-    "url": "https://github.com/Hanaeternum/text-aggregator/issues"
+    "url": "https://github.com/hanaeternum/TextAggregator/issues"
   },
   "license": "MIT", 
   "activationEvents": [
