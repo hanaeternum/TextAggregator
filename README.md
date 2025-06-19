@@ -1,6 +1,6 @@
 # TextAggregator - VS Code Extension
 
-![Extension Banner](images/icon.png)
+![Extension Banner](media/icon.png)
 
 A powerful tool that collects and aggregates text content from multiple files into a single document. Perfect for code documentation, content compilation, and project analysis.
 
